@@ -3,35 +3,50 @@ package avisaai.modelo.entidade.usuario.contato;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class Contato implements Serializable{
-	
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "contato")
+public class Contato implements Serializable {
+
 	private static final long serialVersionUID = -6243156960143903528L;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_contato")
 	private Long id;
-	
+
+	@Column(name = "telefone_contato", length = 13, nullable = false)
 	private String telefone;
-	
+
+	@Column(name = "email_contato", length = 45, nullable = false)
 	private String email;
-	
-	public Contato() {}
-	
+
+	public Contato() {
+	}
+
 	public Contato(String telefone, String email) {
 		setTelefone(telefone);
 		setEmail(email);
 	}
-	
+
 	public String getTelefone() {
 		return telefone;
 	}
-	
+
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
-	
+
 	public String getEmail() {
 		return email;
 	}
-	
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
