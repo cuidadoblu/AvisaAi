@@ -36,13 +36,9 @@ public class Foto implements Serializable {
 	@JoinColumn(name = "id_incidente", referencedColumnName = "id_incidente")
 	private Incidente incidente;
 
-	public Foto() {
-	}
-
-	public Foto(byte[] conteudo, String extensao, Incidente incidente) {
+	public Foto(byte[] conteudo, String extensao) {
 		this.conteudo = conteudo;
 		this.extensao = extensao;
-		this.incidente = incidente;
 	}
 
 	public Long getId() {
@@ -86,7 +82,7 @@ public class Foto implements Serializable {
 			return true;
 		if (obj == null || getClass() != obj.getClass())
 			return false;
-		Foto other = (Foto) obj;
-		return Objects.equals(id, other.id);
+		Foto outro = (Foto) obj;
+		return Objects.equals(id, outro.id);
 	}
 }
