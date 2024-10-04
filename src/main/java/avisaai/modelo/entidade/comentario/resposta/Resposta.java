@@ -4,21 +4,42 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
 import avisaai.modelo.entidade.comentario.Comentario;
 import avisaai.modelo.entidade.usuario.Usuario;
 
+@Entity
+@Table(name = "resposta")
 public class Resposta implements Serializable {
 
 	private static final long serialVersionUID = -2479331445396479292L;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_resposta")
 	private Long id;
 
+	@Column(name = "conteudo_resposta", length = 300, nullable = false)
 	private String conteudo;
 
+	@Column(name = "data_hora_resposta", nullable = false)
 	private LocalDateTime dataHora;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario", nullable = false)
 	private Usuario usuario;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_comentario_origem", referencedColumnName = "id_comentario", nullable = false)
 	private Comentario comentarioOrigem;
 
 	public Resposta() {
