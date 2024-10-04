@@ -6,36 +6,68 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
 import avisaai.modelo.entidade.comunidade.Comunidade;
 import avisaai.modelo.entidade.foto.Foto;
 import avisaai.modelo.entidade.localidade.Localidade;
 import avisaai.modelo.entidade.usuario.Usuario;
 import avisaai.modelo.enumeracao.categoria.Categoria;
 import avisaai.modelo.enumeracao.situacao.Situacao;
-import net.bytebuddy.matcher.LatentMatcher.ForFieldToken;
 
+@Entity
+@Table(name = "incidente")
 public class Incidente implements Serializable {
 
 	static final long serialVersionUID = -3363285045481180558L;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_incidente")
 	private Long id;
 
+	@Column(name = "titulo_incidente", length = 100, nullable = false)
 	private String titulo;
 
+	@Column(name = "descricao_incidente", length = 950, nullable = false)
 	private String descricao;
 
+	@Column(name = "data_incidente", nullable = false)
 	private LocalDateTime dataHora;
 
+	@Column(name = "categoria")
+	@Enumerated(EnumType.STRING)
 	private Categoria categoria;
 
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_comunidade", referencedColumnName = "id_comunidade")
 	private Comunidade comunidade;
 
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario")
 	private Usuario usuario;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_localidade", referencedColumnName = "id_localidade")
 	private Localidade localidade;
 
+	@Column(name = "situacao")
+	@Enumerated(EnumType.STRING)
 	private Situacao situacao;
 
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	private List<Foto> fotoIncidente;
 
 	public Incidente() {
