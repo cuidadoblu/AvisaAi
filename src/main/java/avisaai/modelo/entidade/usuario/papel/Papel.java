@@ -1,28 +1,35 @@
 package avisaai.modelo.entidade.usuario.papel;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Objects;
 
-import avisaai.modelo.entidade.usuario.Usuario;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "papel")
 public class Papel implements Serializable {
 
 	private static final long serialVersionUID = -9156052456128817067L;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_papel")
 	private Long id;
 
+	@Column(name = "nome_papel", length = 15, nullable = false)
 	private String nome;
-
-	private List<Usuario> usuarios;
 
 	public Papel() {
 	}
 
-	public Papel(Long id, String nome, List<Usuario> usuarios) {
+	public Papel(Long id, String nome) {
 		setId(id);
 		setNome(nome);
-		setUsuarios(usuarios);
 	}
 
 	public Long getId() {
@@ -41,14 +48,6 @@ public class Papel implements Serializable {
 		this.nome = nome;
 	}
 
-	public List<Usuario> getUsuarios() {
-		return usuarios;
-	}
-
-	public void setUsuarios(List<Usuario> usuarios) {
-		this.usuarios = usuarios;
-	}
-
 	public int hashCode() {
 		return Objects.hash(id);
 	}
@@ -61,6 +60,6 @@ public class Papel implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Papel outro = (Papel) obj;
-		return Objects.equals(id, outro.id);
+		return id == outro.id;
 	}
 }
