@@ -5,37 +5,64 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+
 import avisaai.modelo.entidade.incidente.Incidente;
 
+@Entity
+@Table(name = "localidade", uniqueConstraints = {
+		@UniqueConstraint(columnNames = { "tipo_localidade", "logradouro localidade", "numero_localidade",
+				"bairro_localidade", "cidade_localidade", "estado_localidade", "complemento_localidade" }) })
 public class Localidade implements Serializable {
 
 	private static final long serialVersionUID = -8373112043596696044L;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_localidade")
 	private Long id;
 
-	private String tipoVia;
+	@Column(name = "tipo_localidade", length = 15, nullable = false)
+	private String tipo;
 
+	@Column(name = "logradouro_localidade", length = 30, nullable = false)
 	private String logradouro;
 
+	@Column(name = "numero_localidade", nullable = false)
 	private short numero;
 
+	@Column(name = "bairro_localidade", length = 30, nullable = false)
 	private String bairro;
 
+	@Column(name = "cidade_localidade", length = 30, nullable = false)
 	private String cidade;
 
+	@Column(name = "estado_localidade", length = 30, nullable = false)
 	private String estado;
 
+	@Column(name = "complemento_localidade", length = 30, nullable = false)
 	private String complemento;
 
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "localidade", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Incidente> incidentes;
 
 	public Localidade() {
 	}
 
-	public Localidade(String logradouro, String tipoVia, short numero, String bairro, String cidade, String estado,
+	public Localidade(String logradouro, String tipo, short numero, String bairro, String cidade, String estado,
 			String complemento) {
 
 		setLogradouro(logradouro);
+		setTipo(tipo);
 		setBairro(bairro);
 		setCidade(cidade);
 		setEstado(estado);
@@ -51,12 +78,12 @@ public class Localidade implements Serializable {
 		this.id = id;
 	}
 
-	public String getTipoVia() {
-		return tipoVia;
+	public String getTipo() {
+		return tipo;
 	}
 
-	public void setTipoVia(String tipoVia) {
-		this.tipoVia = tipoVia;
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
 	}
 
 	public String getLogradouro() {
@@ -127,6 +154,6 @@ public class Localidade implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Localidade outro = (Localidade) obj;
-		return Objects.equals(id, outro.id);
+		return id == outro.id;
 	}
 }
