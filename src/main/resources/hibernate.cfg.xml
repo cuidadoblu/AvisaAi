@@ -11,14 +11,14 @@
 		<property name="hibernate.show_sql">true</property>
 		<property name="hibernate.format_sql">true</property>
 		<property name="hibernate.current_session_context_class">org.hibernate.context.internal.ThreadLocalSessionContext</property>
-		<mapping class="AvisaAi.modelo.entidade.usuario.Usuario" />
-		<mapping class="AvisaAi.modelo.entidade.usuario.contato.Contato" />
-		<mapping class="AvisaAi.modelo.entidade.usuario.papel.Papel" />
-		<mapping class="AvisaAi.modelo.entidade.comentario.Comentario" />
-		<mapping class="AvisaAi.modelo.entidade.comentario.resposta.Resposta" />
-		<mapping class="AvisaAi.modelo.entidade.comunidade.Comunidade" />
-		<mapping class="AvisaAi.modelo.entidade.foto.Foto" />
-		<mapping class="AvisaAi.modelo.entidade.incidente.Incidente" />
-		<mapping class="AvisaAi.modelo.entidade.localidade.Localidade" />
+		<mapping class="avisaai.modelo.entidade.usuario.Usuario" />
+		<mapping class="avisaai.modelo.entidade.usuario.contato.Contato" />
+		<mapping class="avisaai.modelo.entidade.usuario.papel.Papel" />
+		<mapping class="avisaai.modelo.entidade.comentario.Comentario" />
+		<mapping class="avisaai.modelo.entidade.comentario.resposta.Resposta" />
+		<mapping class="avisaai.modelo.entidade.comunidade.Comunidade" />
+		<mapping class="avisaai.modelo.entidade.foto.Foto" />
+		<mapping class="avisaai.modelo.entidade.incidente.Incidente" />
+		<mapping class="avisaai.modelo.entidade.localidade.Localidade" />
 	</session-factory>
 </hibernate-configuration>
