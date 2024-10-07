@@ -19,4 +19,6 @@ public interface ComunidadeDAO {
 	List<Usuario> consultarQuantidadeUsuariosComunidade(Comunidade comunidade);
 
 	List<Comunidade> recuperarComunidades();
+	
+	Comunidade consultarComunidadeId();
 }

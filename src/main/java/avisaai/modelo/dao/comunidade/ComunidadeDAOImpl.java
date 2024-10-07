@@ -14,6 +14,7 @@ import org.hibernate.SessionFactory;
 import avisaai.modelo.entidade.comunidade.Comunidade_;
 import avisaai.modelo.entidade.localidade.Localidade_;
 import avisaai.modelo.factory.conexao.ConexaoFactory;
+import src.main.java.AvisaAi.modelo.dao.comunidade.Exception;
 import avisaai.modelo.entidade.comunidade.Comunidade;
 import avisaai.modelo.entidade.localidade.Localidade;
 import avisaai.modelo.entidade.usuario.Usuario;
@@ -226,5 +227,38 @@ public class ComunidadeDAOImpl implements ComunidadeDAO {
 		}
 		
 		return usuarios;
+	}
+	
+	public Comunidade consultarComunidadeId() {
+		
+		Session sessao = null;
+		Comunidade comunidade = null;
+		
+		try {
+			
+			sessao = fabrica.openSession();
+			sessao.beginTransaction();
+			
+			CriteriaBuilder construtor = sessao.getCriteriaBuilder();
+			CriteriaQuery<Comunidade> criteria = construtor.createQuery(Comunidade.class);
+			Root<Comunidade> raizComunidade = criteria.from(Comunidade.class);
+
+			criteria.select(raizComunidade).where(construtor.equal(raizComunidade.get("id"), id));
+
+			comunidade = sessao.createQuery(criteria).getSingleResult();
+			sessao.getTransaction().commit();
+
+		} catch (Exception exception) {
+			if (sessao.getTransaction() != null) {
+				sessao.getTransaction().rollback();
+			}
+			exception.printStackTrace();
+		} finally {
+			if (sessao != null) {
+				sessao.close();
+			}
+		}
+
+		return comunidade;
 	}
 }
