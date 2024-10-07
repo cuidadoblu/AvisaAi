@@ -61,6 +61,15 @@ public class Comentario implements Serializable {
 		respostas = new ArrayList<Resposta>();
 	}
 
+	public Comentario(Long id, String conteudo, LocalDateTime dataHora, Usuario usuario, Incidente incidente) {
+		setId(id);
+		setConteudo(conteudo);
+		setDataHora(dataHora);
+		setUsuario(usuario);
+		setIncidente(incidente);
+		respostas = new ArrayList<Resposta>();
+	}
+
 	public Long getId() {
 		return id;
 	}
