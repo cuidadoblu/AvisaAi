@@ -34,7 +34,21 @@ public class Contato implements Serializable {
 		setTelefone(telefone);
 		setEmail(email);
 	}
+	
+	public Contato(Long id, String telefone, String email) {
+		setId(id);
+		setTelefone(telefone);
+		setEmail(email);
+	}
 
+	public Long getId() {
+		return id;
+	}
+	
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
 	public String getTelefone() {
 		return telefone;
 	}
