@@ -85,6 +85,20 @@ public class Incidente implements Serializable {
 		setSituacao(situacao);
 		fotoIncidente = new ArrayList<Foto>();
 	}
+	
+	public Incidente(Long id, String titulo, String descricao, LocalDateTime dataHora, Categoria categoria,
+			Comunidade comunidade, Usuario usuario, Localidade localidade, Situacao situacao) {
+		setId(id);
+		setTitulo(titulo);
+		setDescricao(descricao);
+		setDataHora(dataHora);
+		setCategoria(categoria);
+		setComunidade(comunidade);
+		setUsuario(usuario);
+		setLocalidade(localidade);
+		setSituacao(situacao);
+		fotoIncidente = new ArrayList<Foto>();
+	}
 
 	public Long getId() {
 		return id;
