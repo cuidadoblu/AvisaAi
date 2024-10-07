@@ -35,6 +35,12 @@ public class Foto implements Serializable {
 		this.extensao = extensao;
 	}
 
+	public Foto(Long id, byte[] conteudo, String extensao) {
+		setId(id);
+		setConteudo(conteudo);
+		setExtensao(extensao);
+	}
+
 	public Long getId() {
 		return id;
 	}
