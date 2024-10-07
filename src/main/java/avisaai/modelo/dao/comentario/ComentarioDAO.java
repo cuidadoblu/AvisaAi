@@ -23,5 +23,5 @@ public interface ComentarioDAO {
 
 	List<Resposta> consultarQuantidadeRespostasComentario(Comentario comentario);
 
-	Comentario consultarComentarioId(String id);
+	Comentario consultarComentarioId(Long id);
 }
