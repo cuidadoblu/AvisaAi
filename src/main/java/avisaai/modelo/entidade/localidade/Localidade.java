@@ -70,6 +70,19 @@ public class Localidade implements Serializable {
 		incidentes = new ArrayList<Incidente>();
 	}
 
+	public Localidade(Long id, String tipo, String logradouro, short numero, String bairro, String cidade,
+			String estado, String complemento) {
+
+		setId(id);
+		setLogradouro(logradouro);
+		setTipo(tipo);
+		setBairro(bairro);
+		setCidade(cidade);
+		setEstado(estado);
+		setComplemento(complemento);
+		incidentes = new ArrayList<Incidente>();
+	}
+
 	public Long getId() {
 		return id;
 	}
