@@ -134,4 +134,37 @@ public class ContatoDAOImpl implements ContatoDAO {
 		}
 		return contato;
 	}
+	
+	public Contato consultarContatoId() {
+		
+		Session sessao = null;
+		Contato contato = null;
+		
+		try {
+			
+			sessao = fabrica.openSession();
+			sessao.beginTransaction();
+			
+			CriteriaBuilder construtor = sessao.getCriteriaBuilder();
+			CriteriaQuery<Contato> criteria = construtor.createQuery(Contato.class);
+			Root<Contato> raizContato = criteria.from(Contato.class);
+			
+			criteria.select(raizContato).where(construtor.equal(raizContato.get("id"), id));
+			
+			contato = sessao.createQuery(criteria).getSingleResult();
+			sessao.getTransaction().commit();
+			
+		} catch (Exception exception) {
+			if (sessao.getTransaction() != null) {
+				sessao.getTransaction().rollback();
+			}
+			exception.printStackTrace();
+		} finally {
+			if (sessao != null) {
+				sessao.close();
+			}
+		}
+
+		return contato;
+	}
 }
