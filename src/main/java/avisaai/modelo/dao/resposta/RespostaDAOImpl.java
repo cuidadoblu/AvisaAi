@@ -202,7 +202,7 @@ public class RespostaDAOImpl implements RespostaDAO {
 		return respostas;
 	}
 
-	public Resposta consultarRespostaId(String id) {
+	public Resposta consultarRespostaId(Long id) {
 
 		Session sessao = null;
 		Resposta resposta = null;
