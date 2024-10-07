@@ -52,6 +52,14 @@ public class Resposta implements Serializable {
 		setConteudo(conteudo);
 	}
 
+	public Resposta(Long id, String conteudo, LocalDateTime dataHora, Usuario usuario, Comentario comentarioOrigem) {
+		setId(id);
+		setConteudo(conteudo);
+		setDataHora(dataHora);
+		setUsuario(usuario);
+		setConteudo(conteudo);
+	}
+
 	public Long getId() {
 		return id;
 	}
