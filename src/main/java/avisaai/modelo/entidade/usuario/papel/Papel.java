@@ -27,6 +27,10 @@ public class Papel implements Serializable {
 	public Papel() {
 	}
 
+	public Papel(String nome) {
+		setNome(nome);
+	}
+
 	public Papel(Long id, String nome) {
 		setId(id);
 		setNome(nome);

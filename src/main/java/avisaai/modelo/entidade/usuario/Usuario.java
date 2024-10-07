@@ -54,7 +54,7 @@ public class Usuario implements Serializable {
 	@JoinColumn(name = "id_foto", referencedColumnName = "id_foto")
 	private Foto fotoPerfil;
 
-	@OnetoOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "id_papel", referencedColumnName = "id_papel")
 	private Papel papel;
 
@@ -75,6 +75,22 @@ public class Usuario implements Serializable {
 	}
 
 	public Usuario(String nome, String sobrenome, String senha, Contato contato, Foto fotoPerfil, Papel papel) {
+		setNome(nome);
+		setSobrenome(sobrenome);
+		setSenha(senha);
+		setContato(contato);
+		setFotoPerfil(fotoPerfil);
+		setPapel(papel);
+		comunidadesAcompanhadas = new ArrayList<Comunidade>();
+		comentariosFeitos = new ArrayList<Comentario>();
+		incidentesCadastrados = new ArrayList<Incidente>();
+		incidentesAcompanhados = new ArrayList<Incidente>();
+	}
+
+	public Usuario(Long id, String nome, String sobrenome, String senha, Contato contato, Foto fotoPerfil,
+			Papel papel) {
+
+		setId(id);
 		setNome(nome);
 		setSobrenome(sobrenome);
 		setSenha(senha);
