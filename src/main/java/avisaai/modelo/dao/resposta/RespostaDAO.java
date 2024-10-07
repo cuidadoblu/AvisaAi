@@ -20,5 +20,5 @@ public interface RespostaDAO {
 
 	List<Resposta> consultarRespostaUsuario(Usuario usuario);
 
-	Resposta consultarRespostaId(String id);
+	Resposta consultarRespostaId(Long id);
 }
