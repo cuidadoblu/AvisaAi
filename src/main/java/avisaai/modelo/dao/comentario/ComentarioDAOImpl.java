@@ -205,7 +205,7 @@ public class ComentarioDAOImpl implements ComentarioDAO {
 		return comentarios;
 	}
 
-	public Comentario consultarComentarioId(String id) {
+	public Comentario consultarComentarioId(Long id) {
 
 		Session sessao = null;
 		Comentario comentario = null;
