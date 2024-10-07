@@ -64,6 +64,16 @@ public class Comunidade implements Serializable {
 		usuarios = new ArrayList<Usuario>();
 		incidentes = new ArrayList<Incidente>();
 	}
+	
+	public Comunidade(Long id, String nome, String descricao, Localidade localidade, Foto fotoPerfil) {
+		setId(id);
+		setNome(nome);
+		setDescricao(descricao);
+		setLocalidade(localidade);
+		setFotoPerfil(fotoPerfil);
+		usuarios = new ArrayList<Usuario>();
+		incidentes = new ArrayList<Incidente>();
+	}
 
 	public Long getId() {
 		return id;
