@@ -29,4 +29,6 @@ public interface IncidenteDAO {
 	List<Incidente> consultarIncidentesLocalidade(Localidade localidade, Incidente incidente);
 
 	List<Incidente> consultarIncidentesSituacao(Incidente incidente);
+	
+	Incidente consultarIncidenteId();
 }

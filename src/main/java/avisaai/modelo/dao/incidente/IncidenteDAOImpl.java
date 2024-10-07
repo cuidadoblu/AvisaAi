@@ -439,4 +439,37 @@ public class IncidenteDAOImpl implements IncidenteDAO {
 
 		return incidentes;
 	}
+
+	public Incidente consultarIncidenteId() {
+		
+		Session sessao = null;
+		Incidente incidente = null;
+		
+		try {
+			
+			sessao = fabrica.openSession();
+			sessao.beginTransaction();
+			
+			CriteriaBuilder construtor = sessao.getCriteriaBuilder();
+			CriteriaQuery<Incidente> criteria = construtor.createQuery(Incidente.class);
+			Root<Incidente> raizIncidente = criteria.from(Incidente.class);
+			
+			criteria.select(raizIncidente).where(construtor.equal(raizIncidente.get("id"), id));
+			
+			incidente = sessao.createQuery(criteria).getSingleResult();
+			sessao.getTransaction().commit();
+		
+		} catch (Exception exception) {
+			if (sessao.getTransaction() != null) {
+				sessao.getTransaction().rollback();
+			}
+			exception.printStackTrace();
+		} finally {
+			if (sessao != null) {
+				sessao.close();
+			}
+		}
+		
+		return incidente;
+	}
 }
