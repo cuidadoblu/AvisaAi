@@ -20,5 +20,5 @@ public interface RespostaDAO {
 
 	List<Resposta> consultarRespostaUsuario(Usuario usuario);
 
-	Resposta consultarRespostaId(Long id);
+	Resposta consultarRespostaId();
 }
