@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.ParameterExpression;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
@@ -135,7 +136,7 @@ public class FotoDAOImpl implements FotoDAO {
 		return fotos;
 	}
 
-	public Foto consultarFotoId(Long id) {
+	public Foto consultarFotoId() {
 
 		Session sessao = null;
 		Foto foto = null;
@@ -145,11 +146,12 @@ public class FotoDAOImpl implements FotoDAO {
 			sessao = fabrica.getConexao().openSession();
 			sessao.beginTransaction();
 
-			CriteriaBuilder contrutor = sessao.getCriteriaBuilder();
-			CriteriaQuery<Foto> criteria = contrutor.createQuery(Foto.class);
+			CriteriaBuilder construtor = sessao.getCriteriaBuilder();
+			CriteriaQuery<Foto> criteria = construtor.createQuery(Foto.class);
 			Root<Foto> raizFoto = criteria.from(Foto.class);
 
-			criteria.select(raizFoto).where(contrutor.equal(raizFoto.get("id"), id));
+			ParameterExpression<Long> id = construtor.parameter(Long.class);
+			criteria.select(raizFoto).where(construtor.equal(raizFoto.get("id"), id));
 
 			foto = sessao.createQuery(criteria).getSingleResult();
 			sessao.getTransaction().commit();
