@@ -9,7 +9,6 @@ import javax.persistence.criteria.ParameterExpression;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 
 import avisaai.modelo.entidade.comentario.Comentario;
 import avisaai.modelo.entidade.comentario.resposta.Resposta;
@@ -19,7 +18,7 @@ import avisaai.modelo.factory.conexao.ConexaoFactory;
 
 public class ComentarioDAOImpl implements ComentarioDAO {
 
-	private final SessionFactory fabrica = ConexaoFactory.getConexao();
+	private final ConexaoFactory fabrica = new ConexaoFactory();
 
 	public void inserirComentario(Comentario comentario) {
 
@@ -27,7 +26,7 @@ public class ComentarioDAOImpl implements ComentarioDAO {
 
 		try {
 
-			sessao = fabrica.openSession();
+			sessao = fabrica.getConexao().openSession();
 			sessao.beginTransaction();
 
 			sessao.save(comentario);
@@ -53,7 +52,7 @@ public class ComentarioDAOImpl implements ComentarioDAO {
 
 		try {
 
-			sessao = fabrica.openSession();
+			sessao = fabrica.getConexao().openSession();
 			sessao.beginTransaction();
 
 			sessao.remove(comentario);
@@ -79,7 +78,7 @@ public class ComentarioDAOImpl implements ComentarioDAO {
 
 		try {
 
-			sessao = fabrica.openSession();
+			sessao = fabrica.getConexao().openSession();
 			sessao.beginTransaction();
 
 			sessao.update(comentario);
@@ -106,7 +105,7 @@ public class ComentarioDAOImpl implements ComentarioDAO {
 
 		try {
 
-			sessao = fabrica.openSession();
+			sessao = fabrica.getConexao().openSession();
 			sessao.beginTransaction();
 
 			CriteriaBuilder construtor = sessao.getCriteriaBuilder();
@@ -143,7 +142,7 @@ public class ComentarioDAOImpl implements ComentarioDAO {
 
 		try {
 
-			sessao = fabrica.openSession();
+			sessao = fabrica.getConexao().openSession();
 			sessao.beginTransaction();
 
 			CriteriaBuilder construtor = sessao.getCriteriaBuilder();
@@ -179,7 +178,7 @@ public class ComentarioDAOImpl implements ComentarioDAO {
 
 		try {
 
-			sessao = fabrica.openSession();
+			sessao = fabrica.getConexao().openSession();
 			sessao.beginTransaction();
 			CriteriaBuilder construtor = sessao.getCriteriaBuilder();
 			CriteriaQuery<Comentario> criteria = construtor.createQuery(Comentario.class);
@@ -205,14 +204,57 @@ public class ComentarioDAOImpl implements ComentarioDAO {
 		return comentarios;
 	}
 
-	public Comentario consultarComentarioId(Long id) {
+	public List<Resposta> consultarRespostasComentario(Comentario comentario) {
+
+		Session sessao = null;
+		List<Resposta> respostas = null;
+
+		try {
+
+			sessao = fabrica.getConexao().openSession();
+			sessao.beginTransaction();
+
+			CriteriaBuilder construtor = sessao.getCriteriaBuilder();
+
+			CriteriaQuery<Resposta> criteria = construtor.createQuery(Resposta.class);
+			Root<Resposta> raizResposta = criteria.from(Resposta.class);
+
+			criteria.select(raizResposta);
+
+			Join<Resposta, Comentario> juncaoComentario = raizResposta.join(Resposta_.comentarioOrigem);
+
+			ParameterExpression<Long> id = construtor.parameter(Long.class);
+			criteria.where(construtor.equal(juncaoComentario.get(Comentario_.id), id));
+
+			respostas = sessao.createQuery(criteria).setParameter(id, comentario.getId()).getResultList();
+
+			sessao.getTransaction().commit();
+
+		} catch (Exception sqlException) {
+
+			sqlException.printStackTrace();
+
+			if (sessao.getTransaction() != null) {
+				sessao.getTransaction().rollback();
+			}
+		} finally {
+
+			if (sessao != null) {
+				sessao.close();
+			}
+		}
+
+		return respostas;
+	}
+
+	public Comentario consultarComentarioId() {
 
 		Session sessao = null;
 		Comentario comentario = null;
 
 		try {
 
-			sessao = fabrica.openSession();
+			sessao = fabrica.getConexao().openSession();
 			sessao.beginTransaction();
 
 			CriteriaBuilder construtor = sessao.getCriteriaBuilder();
@@ -220,6 +262,7 @@ public class ComentarioDAOImpl implements ComentarioDAO {
 			CriteriaQuery<Comentario> criteria = construtor.createQuery(Comentario.class);
 			Root<Comentario> raizComentario = criteria.from(Comentario.class);
 
+			ParameterExpression<Long> id = construtor.parameter(Long.class);
 			criteria.select(raizComentario).where(construtor.equal(raizComentario.get("id"), id));
 
 			comentario = sessao.createQuery(criteria).getSingleResult();
@@ -240,48 +283,5 @@ public class ComentarioDAOImpl implements ComentarioDAO {
 			}
 		}
 		return comentario;
-	}
-
-	public List<Resposta> consultarQuantidadeRespostasComentario(Comentario comentario) {
-
-		Session sessao = null;
-		List<Resposta> respostas = null;
-
-		try {
-
-			sessao = fabrica.openSession();
-			sessao.beginTransaction();
-
-			CriteriaBuilder construtor = sessao.getCriteriaBuilder();
-
-			CriteriaQuery<Resposta> criteria = construtor.createQuery(Resposta.class);
-			Root<Resposta> raizResposta = criteria.from(Resposta.class);
-
-			criteria.select(raizResposta);
-
-			Join<Resposta, Comentario> juncaoComentario = raizResposta.join(Resposta_.comentarioOrigem);
-
-			ParameterExpression<Long> idComentario = construtor.parameter(Long.class);
-			criteria.where(construtor.equal(juncaoComentario.get(Comentario_.id), idComentario));
-
-			respostas = sessao.createQuery(criteria).setParameter(idComentario, comentario.getId()).getResultList();
-
-			sessao.getTransaction().commit();
-
-		} catch (Exception sqlException) {
-
-			sqlException.printStackTrace();
-
-			if (sessao.getTransaction() != null) {
-				sessao.getTransaction().rollback();
-			}
-		} finally {
-
-			if (sessao != null) {
-				sessao.close();
-			}
-		}
-
-		return respostas;
 	}
 }
