@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.ParameterExpression;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
@@ -177,7 +178,7 @@ public class UsuarioDAOImpl {
 		return usuarios;
 	}
 
-	public Usuario consultarUsuarioId(Long id) {
+	public Usuario consultarUsuarioId() {
 
 		Session sessao = null;
 		Usuario usuario = null;
@@ -191,6 +192,8 @@ public class UsuarioDAOImpl {
 
 			CriteriaQuery<Usuario> criteria = construtor.createQuery(Usuario.class);
 			Root<Usuario> raizUsuario = criteria.from(Usuario.class);
+
+			ParameterExpression<Long> id = construtor.parameter(Long.class);
 
 			criteria.select(raizUsuario).where(construtor.equal(raizUsuario.get("id"), id));
 
