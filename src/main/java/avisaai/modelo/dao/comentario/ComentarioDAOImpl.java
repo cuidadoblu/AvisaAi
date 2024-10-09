@@ -9,7 +9,6 @@ import javax.persistence.criteria.ParameterExpression;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 
 import avisaai.modelo.entidade.comentario.Comentario;
 import avisaai.modelo.entidade.comentario.resposta.Resposta;
@@ -19,7 +18,7 @@ import avisaai.modelo.factory.conexao.ConexaoFactory;
 
 public class ComentarioDAOImpl implements ComentarioDAO {
 
-	private final SessionFactory fabrica = ConexaoFactory.getConexao();
+	private final ConexaoFactory fabrica = new ConexaoFactory();
 
 	public void inserirComentario(Comentario comentario) {
 
@@ -27,7 +26,7 @@ public class ComentarioDAOImpl implements ComentarioDAO {
 
 		try {
 
-			sessao = fabrica.openSession();
+			sessao = fabrica.getConexao().openSession();
 			sessao.beginTransaction();
 
 			sessao.save(comentario);
@@ -53,7 +52,7 @@ public class ComentarioDAOImpl implements ComentarioDAO {
 
 		try {
 
-			sessao = fabrica.openSession();
+			sessao = fabrica.getConexao().openSession();
 			sessao.beginTransaction();
 
 			sessao.remove(comentario);
@@ -79,7 +78,7 @@ public class ComentarioDAOImpl implements ComentarioDAO {
 
 		try {
 
-			sessao = fabrica.openSession();
+			sessao = fabrica.getConexao().openSession();
 			sessao.beginTransaction();
 
 			sessao.update(comentario);
@@ -106,7 +105,7 @@ public class ComentarioDAOImpl implements ComentarioDAO {
 
 		try {
 
-			sessao = fabrica.openSession();
+			sessao = fabrica.getConexao().openSession();
 			sessao.beginTransaction();
 
 			CriteriaBuilder construtor = sessao.getCriteriaBuilder();
@@ -143,7 +142,7 @@ public class ComentarioDAOImpl implements ComentarioDAO {
 
 		try {
 
-			sessao = fabrica.openSession();
+			sessao = fabrica.getConexao().openSession();
 			sessao.beginTransaction();
 
 			CriteriaBuilder construtor = sessao.getCriteriaBuilder();
@@ -179,7 +178,7 @@ public class ComentarioDAOImpl implements ComentarioDAO {
 
 		try {
 
-			sessao = fabrica.openSession();
+			sessao = fabrica.getConexao().openSession();
 			sessao.beginTransaction();
 			CriteriaBuilder construtor = sessao.getCriteriaBuilder();
 			CriteriaQuery<Comentario> criteria = construtor.createQuery(Comentario.class);
@@ -212,7 +211,7 @@ public class ComentarioDAOImpl implements ComentarioDAO {
 
 		try {
 
-			sessao = fabrica.openSession();
+			sessao = fabrica.getConexao().openSession();
 			sessao.beginTransaction();
 
 			CriteriaBuilder construtor = sessao.getCriteriaBuilder();
@@ -249,7 +248,7 @@ public class ComentarioDAOImpl implements ComentarioDAO {
 
 		try {
 
-			sessao = fabrica.openSession();
+			sessao = fabrica.getConexao().openSession();
 			sessao.beginTransaction();
 
 			CriteriaBuilder construtor = sessao.getCriteriaBuilder();
