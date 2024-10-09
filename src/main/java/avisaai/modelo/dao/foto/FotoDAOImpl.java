@@ -7,14 +7,13 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 
 import avisaai.modelo.entidade.foto.Foto;
 import avisaai.modelo.factory.conexao.ConexaoFactory;
 
 public class FotoDAOImpl implements FotoDAO {
 
-	private final ConexaoFactory fabrica =  new ConexaoFactory();
+	private final ConexaoFactory fabrica = new ConexaoFactory();
 
 	public void inserirFoto(Foto foto) {
 
@@ -24,7 +23,7 @@ public class FotoDAOImpl implements FotoDAO {
 
 			sessao = fabrica.getConexao().openSession();
 			sessao.beginTransaction();
-			
+
 			sessao.save(foto);
 
 			sessao.getTransaction().commit();
@@ -113,7 +112,7 @@ public class FotoDAOImpl implements FotoDAO {
 			CriteriaBuilder construtor = sessao.getCriteriaBuilder();
 			CriteriaQuery<Foto> criteria = construtor.createQuery(Foto.class);
 			Root<Foto> raizFoto = criteria.from(Foto.class);
-			
+
 			criteria.select(raizFoto);
 
 			fotos = sessao.createQuery(criteria).getResultList();
@@ -145,13 +144,13 @@ public class FotoDAOImpl implements FotoDAO {
 
 			sessao = fabrica.getConexao().openSession();
 			sessao.beginTransaction();
-			
+
 			CriteriaBuilder contrutor = sessao.getCriteriaBuilder();
 			CriteriaQuery<Foto> criteria = contrutor.createQuery(Foto.class);
 			Root<Foto> raizFoto = criteria.from(Foto.class);
-			
+
 			criteria.select(raizFoto).where(contrutor.equal(raizFoto.get("id"), id));
-			
+
 			foto = sessao.createQuery(criteria).getSingleResult();
 			sessao.getTransaction().commit();
 
