@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.ParameterExpression;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
@@ -75,7 +76,7 @@ public class LocalidadeDAOImpl {
 
 	}
 
-	public Localidade consultarLocalidadeId(Long id) {
+	public Localidade consultarLocalidadeId() {
 
 		Session sessao = null;
 		Localidade localidade = null;
@@ -87,6 +88,8 @@ public class LocalidadeDAOImpl {
 			CriteriaBuilder construtor = sessao.getCriteriaBuilder();
 			CriteriaQuery<Localidade> criteria = construtor.createQuery(Localidade.class);
 			Root<Localidade> raizLocalidade = criteria.from(Localidade.class);
+
+			ParameterExpression<Long> id = construtor.parameter(Long.class);
 
 			criteria.select(raizLocalidade).where(construtor.equal(raizLocalidade.get("id"), id));
 
