@@ -90,7 +90,6 @@ public class LocalidadeDAOImpl {
 			Root<Localidade> raizLocalidade = criteria.from(Localidade.class);
 
 			ParameterExpression<Long> id = construtor.parameter(Long.class);
-
 			criteria.select(raizLocalidade).where(construtor.equal(raizLocalidade.get("id"), id));
 
 			localidade = sessao.createQuery(criteria).getSingleResult();
