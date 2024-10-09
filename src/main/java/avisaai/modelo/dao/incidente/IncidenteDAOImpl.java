@@ -28,7 +28,7 @@ import avisaai.modelo.enumeracao.situacao.Situacao;
 
 public class IncidenteDAOImpl implements IncidenteDAO {
 
-	private final SessionFactory fabrica = ConexaoFactory.getConexao();
+	private final ConexaoFactory fabrica = new ConexaoFactory();
 
 	public void inserirIncidente(Incidente incidente) {
 
@@ -36,7 +36,7 @@ public class IncidenteDAOImpl implements IncidenteDAO {
 
 		try {
 
-			sessao = fabrica.openSession();
+			sessao = fabrica.getConexao().openSession();
 			sessao.beginTransaction();
 
 			sessao.save(incidente);
@@ -67,7 +67,7 @@ public class IncidenteDAOImpl implements IncidenteDAO {
 
 		try {
 
-			sessao = fabrica.openSession();
+			sessao = fabrica.getConexao().openSession();
 			sessao.beginTransaction();
 
 			sessao.remove(incidente);
@@ -97,7 +97,7 @@ public class IncidenteDAOImpl implements IncidenteDAO {
 
 		try {
 
-			sessao = fabrica.openSession();
+			sessao = fabrica.getConexao().openSession();
 			sessao.beginTransaction();
 
 			sessao.update(incidente);
@@ -127,7 +127,7 @@ public class IncidenteDAOImpl implements IncidenteDAO {
 		List<Comentario> comentarios = null;
 
 		try {
-			sessao = fabrica.openSession();
+			sessao = fabrica.getConexao().openSession();
 			sessao.beginTransaction();
 
 			CriteriaBuilder construtor = sessao.getCriteriaBuilder();
@@ -169,7 +169,7 @@ public class IncidenteDAOImpl implements IncidenteDAO {
 
 		try {
 
-			sessao = fabrica.openSession();
+			sessao = fabrica.getConexao().openSession();
 			sessao.beginTransaction();
 
 			CriteriaBuilder construtor = sessao.getCriteriaBuilder();
@@ -213,7 +213,7 @@ public class IncidenteDAOImpl implements IncidenteDAO {
 
 		try {
 
-			sessao = fabrica.openSession();
+			sessao = fabrica.getConexao().openSession();
 			sessao.beginTransaction();
 
 			CriteriaBuilder construtor = sessao.getCriteriaBuilder();
@@ -259,7 +259,7 @@ public class IncidenteDAOImpl implements IncidenteDAO {
 
 		try {
 
-			sessao = fabrica.openSession();
+			sessao = fabrica.getConexao().openSession();
 			sessao.beginTransaction();
 
 			CriteriaBuilder construtor = sessao.getCriteriaBuilder();
@@ -308,7 +308,7 @@ public class IncidenteDAOImpl implements IncidenteDAO {
 
 		try {
 
-			sessao = fabrica.openSession();
+			sessao = fabrica.getConexao().openSession();
 			sessao.beginTransaction();
 
 			CriteriaBuilder construtor = sessao.getCriteriaBuilder();
@@ -358,7 +358,7 @@ public class IncidenteDAOImpl implements IncidenteDAO {
 
 		try {
 
-			sessao = fabrica.openSession();
+			sessao = fabrica.getConexao().openSession();
 			sessao.beginTransaction();
 
 			CriteriaBuilder construtor = sessao.getCriteriaBuilder();
@@ -404,7 +404,7 @@ public class IncidenteDAOImpl implements IncidenteDAO {
 
 		try {
 
-			sessao = fabrica.openSession();
+			sessao = fabrica.getConexao().openSession();
 			sessao.beginTransaction();
 
 			CriteriaBuilder construtor = sessao.getCriteriaBuilder();
@@ -447,13 +447,14 @@ public class IncidenteDAOImpl implements IncidenteDAO {
 		
 		try {
 			
-			sessao = fabrica.openSession();
+			sessao = fabrica.getConexao().openSession();
 			sessao.beginTransaction();
 			
 			CriteriaBuilder construtor = sessao.getCriteriaBuilder();
 			CriteriaQuery<Incidente> criteria = construtor.createQuery(Incidente.class);
 			Root<Incidente> raizIncidente = criteria.from(Incidente.class);
 			
+			ParameterExpression<Long> id = construtor.parameter(Long.class);
 			criteria.select(raizIncidente).where(construtor.equal(raizIncidente.get("id"), id));
 			
 			incidente = sessao.createQuery(criteria).getSingleResult();
