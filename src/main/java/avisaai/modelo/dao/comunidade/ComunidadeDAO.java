@@ -4,7 +4,6 @@ import java.util.List;
 
 import avisaai.modelo.entidade.comunidade.Comunidade;
 import avisaai.modelo.entidade.localidade.Localidade;
-import avisaai.modelo.entidade.usuario.Usuario;
 
 public interface ComunidadeDAO {
 
@@ -15,8 +14,6 @@ public interface ComunidadeDAO {
 	void atualizarComunidade(Comunidade comunidade);
 
 	Comunidade consultarComunidadeBairro(Localidade localidade);
-
-	List<Usuario> consultarQuantidadeUsuariosComunidade(Comunidade comunidade);
 
 	List<Comunidade> recuperarComunidades();
 	
