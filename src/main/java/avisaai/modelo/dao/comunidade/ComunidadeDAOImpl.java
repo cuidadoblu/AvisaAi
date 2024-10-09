@@ -9,19 +9,16 @@ import javax.persistence.criteria.ParameterExpression;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 
+import avisaai.modelo.entidade.comunidade.Comunidade;
 import avisaai.modelo.entidade.comunidade.Comunidade_;
+import avisaai.modelo.entidade.localidade.Localidade;
 import avisaai.modelo.entidade.localidade.Localidade_;
 import avisaai.modelo.factory.conexao.ConexaoFactory;
-import src.main.java.AvisaAi.modelo.dao.comunidade.Exception;
-import avisaai.modelo.entidade.comunidade.Comunidade;
-import avisaai.modelo.entidade.localidade.Localidade;
-import avisaai.modelo.entidade.usuario.Usuario;
 
 public class ComunidadeDAOImpl implements ComunidadeDAO {
 
-	private final SessionFactory fabrica = ConexaoFactory.getConexao();
+	private final ConexaoFactory fabrica = new ConexaoFactory();
 
 	public void inserirComunidade(Comunidade comunidade) {
 
@@ -29,7 +26,7 @@ public class ComunidadeDAOImpl implements ComunidadeDAO {
 
 		try {
 
-			sessao = fabrica.openSession();
+			sessao = fabrica.getConexao().openSession();
 			sessao.beginTransaction();
 
 			sessao.save(comunidade);
@@ -58,7 +55,7 @@ public class ComunidadeDAOImpl implements ComunidadeDAO {
 
 		try {
 
-			sessao = fabrica.openSession();
+			sessao = fabrica.getConexao().openSession();
 			sessao.beginTransaction();
 
 			sessao.remove(comunidade);
@@ -86,7 +83,7 @@ public class ComunidadeDAOImpl implements ComunidadeDAO {
 
 		try {
 
-			sessao = fabrica.openSession();
+			sessao = fabrica.getConexao().openSession();
 			sessao.beginTransaction();
 
 			sessao.update(comunidade);
@@ -115,7 +112,7 @@ public class ComunidadeDAOImpl implements ComunidadeDAO {
 
 		try {
 
-			sessao = fabrica.openSession();
+			sessao = fabrica.getConexao().openSession();
 			sessao.beginTransaction();
 
 			CriteriaBuilder construtor = sessao.getCriteriaBuilder();
@@ -154,7 +151,7 @@ public class ComunidadeDAOImpl implements ComunidadeDAO {
 
 		try {
 
-			sessao = fabrica.openSession();
+			sessao = fabrica.getConexao().openSession();
 			sessao.beginTransaction();
 
 			CriteriaBuilder construtor = sessao.getCriteriaBuilder();
@@ -187,48 +184,6 @@ public class ComunidadeDAOImpl implements ComunidadeDAO {
 		return comunidade;
 	}
 
-	public List<Usuario> consultarQuantidadeUsuariosComunidade(Comunidade comunidade) {
-		
-		Session sessao = null;
-		List<Usuario> usuarios = null;
-		
-		try {
-			
-			sessao = fabrica.openSession();
-			sessao.beginTransaction();
-			
-			CriteriaBuilder construtor = sessao.getCriteriaBuilder();
-			
-			CriteriaQuery<Usuario> criteria = construtor.createQuery(Usuario.class);
-			Root<Usuario> raizUsuario = criteria.from(Usuario.class);
-			
-			criteria.select(raizUsuario);
-			
-			Join<Usuario, Comunidade> juncaoComunidade = raizUsuario.join(Usuario_.id);
-			
-			ParameterExpression<Long> idComunidade = construtor.parameter(Long.class);
-			criteria.where(construtor.equal(juncaoComunidade.get(Comunidade_.id), idComunidade));
-			
-			usuarios = sessao.createQuery(criteria)comunidade.setParameter(idComunidade, comunidade.getId()).getResultList();
-			
-			sessao.getTransaction().commit();
-			
-		} catch(Exception sqlException) {
-			
-			sqlException.printStackTrace();
-			
-			if (sessao.getTransaction() != null) {
-				sessao.getTransaction().rollback();
-			}
-		} finally {
-			if (sessao != null) {
-				sessao.close();
-			}
-		}
-		
-		return usuarios;
-	}
-	
 	public Comunidade consultarComunidadeId() {
 		
 		Session sessao = null;
@@ -236,13 +191,14 @@ public class ComunidadeDAOImpl implements ComunidadeDAO {
 		
 		try {
 			
-			sessao = fabrica.openSession();
+			sessao = fabrica.getConexao().openSession();
 			sessao.beginTransaction();
 			
 			CriteriaBuilder construtor = sessao.getCriteriaBuilder();
 			CriteriaQuery<Comunidade> criteria = construtor.createQuery(Comunidade.class);
 			Root<Comunidade> raizComunidade = criteria.from(Comunidade.class);
 
+			ParameterExpression<Long> id = construtor.parameter(Long.class);
 			criteria.select(raizComunidade).where(construtor.equal(raizComunidade.get("id"), id));
 
 			comunidade = sessao.createQuery(criteria).getSingleResult();
