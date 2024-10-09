@@ -194,7 +194,6 @@ public class UsuarioDAOImpl {
 			Root<Usuario> raizUsuario = criteria.from(Usuario.class);
 
 			ParameterExpression<Long> id = construtor.parameter(Long.class);
-
 			criteria.select(raizUsuario).where(construtor.equal(raizUsuario.get("id"), id));
 
 			usuario = sessao.createQuery(criteria).getSingleResult();
