@@ -2,18 +2,18 @@ package avisaai.modelo.dao.contato;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.ParameterExpression;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 
-import AvisaAi.modelo.factory.conexao.ConexaoFactory;
 import avisaai.modelo.entidade.usuario.Usuario;
 import avisaai.modelo.entidade.usuario.contato.Contato;
+import avisaai.modelo.factory.conexao.ConexaoFactory;
 
 public class ContatoDAOImpl implements ContatoDAO {
 
-	private final SessionFactory fabrica = ConexaoFactory.getConexao();
+	private final ConexaoFactory fabrica = new ConexaoFactory();
 
 	public void inserirContato(Contato contato) {
 
@@ -21,7 +21,7 @@ public class ContatoDAOImpl implements ContatoDAO {
 
 		try {
 
-			sessao = fabrica.openSession();
+			sessao = fabrica.getConexao().openSession();
 			sessao.beginTransaction();
 
 			sessao.save(contato);
@@ -49,7 +49,7 @@ public class ContatoDAOImpl implements ContatoDAO {
 
 		try {
 
-			sessao = fabrica.openSession();
+			sessao = fabrica.getConexao().openSession();
 			sessao.beginTransaction();
 
 			sessao.remove(contato);
@@ -77,7 +77,7 @@ public class ContatoDAOImpl implements ContatoDAO {
 
 		try {
 
-			sessao = fabrica.openSession();
+			sessao = fabrica.getConexao().openSession();
 			sessao.beginTransaction();
 
 			sessao.update(contato);
@@ -106,7 +106,7 @@ public class ContatoDAOImpl implements ContatoDAO {
 
 		try {
 
-			sessao = fabrica.openSession();
+			sessao = fabrica.getConexao().openSession();
 			sessao.beginTransaction();
 
 			CriteriaBuilder construtor = sessao.getCriteriaBuilder();
@@ -142,13 +142,14 @@ public class ContatoDAOImpl implements ContatoDAO {
 		
 		try {
 			
-			sessao = fabrica.openSession();
+			sessao = fabrica.getConexao().openSession();
 			sessao.beginTransaction();
 			
 			CriteriaBuilder construtor = sessao.getCriteriaBuilder();
 			CriteriaQuery<Contato> criteria = construtor.createQuery(Contato.class);
 			Root<Contato> raizContato = criteria.from(Contato.class);
 			
+			ParameterExpression<Long> id = construtor.parameter(Long.class);
 			criteria.select(raizContato).where(construtor.equal(raizContato.get("id"), id));
 			
 			contato = sessao.createQuery(criteria).getSingleResult();
