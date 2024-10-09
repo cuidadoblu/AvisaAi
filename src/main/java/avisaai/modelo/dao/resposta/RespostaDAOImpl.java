@@ -5,10 +5,10 @@ import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
+import javax.persistence.criteria.ParameterExpression;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 
 import avisaai.modelo.entidade.comentario.Comentario;
 import avisaai.modelo.entidade.comentario.resposta.Resposta;
@@ -17,7 +17,7 @@ import avisaai.modelo.factory.conexao.ConexaoFactory;
 
 public class RespostaDAOImpl implements RespostaDAO {
 
-	private final SessionFactory fabrica = ConexaoFactory.getConexao();
+	private final ConexaoFactory fabrica = new ConexaoFactory();
 
 	public void inserirResposta(Resposta resposta) {
 
@@ -25,7 +25,7 @@ public class RespostaDAOImpl implements RespostaDAO {
 
 		try {
 
-			sessao = fabrica.openSession();
+			sessao = fabrica.getConexao().openSession();
 			sessao.beginTransaction();
 
 			sessao.save(resposta);
@@ -51,7 +51,7 @@ public class RespostaDAOImpl implements RespostaDAO {
 
 		try {
 
-			sessao = fabrica.openSession();
+			sessao = fabrica.getConexao().openSession();
 			sessao.beginTransaction();
 
 			sessao.remove(resposta);
@@ -77,7 +77,7 @@ public class RespostaDAOImpl implements RespostaDAO {
 
 		try {
 
-			sessao = fabrica.openSession();
+			sessao = fabrica.getConexao().openSession();
 			sessao.beginTransaction();
 
 			sessao.update(resposta);
@@ -103,7 +103,7 @@ public class RespostaDAOImpl implements RespostaDAO {
 
 		try {
 
-			sessao = fabrica.openSession();
+			sessao = fabrica.getConexao().openSession();
 			sessao.beginTransaction();
 
 			CriteriaBuilder construtor = sessao.getCriteriaBuilder();
@@ -139,7 +139,7 @@ public class RespostaDAOImpl implements RespostaDAO {
 
 		try {
 
-			sessao = fabrica.openSession();
+			sessao = fabrica.getConexao().openSession();
 			sessao.beginTransaction();
 
 			CriteriaBuilder construtor = sessao.getCriteriaBuilder();
@@ -174,7 +174,7 @@ public class RespostaDAOImpl implements RespostaDAO {
 
 		try {
 
-			sessao = fabrica.openSession();
+			sessao = fabrica.getConexao().openSession();
 			sessao.beginTransaction();
 
 			CriteriaBuilder construtor = sessao.getCriteriaBuilder();
@@ -202,19 +202,21 @@ public class RespostaDAOImpl implements RespostaDAO {
 		return respostas;
 	}
 
-	public Resposta consultarRespostaId(Long id) {
+	public Resposta consultarRespostaId() {
 
 		Session sessao = null;
 		Resposta resposta = null;
 
 		try {
-			sessao = fabrica.openSession();
+
+			sessao = fabrica.getConexao().openSession();
 			sessao.beginTransaction();
 
 			CriteriaBuilder construtor = sessao.getCriteriaBuilder();
 			CriteriaQuery<Resposta> criteria = construtor.createQuery(Resposta.class);
 			Root<Resposta> raizResposta = criteria.from(Resposta.class);
 
+			ParameterExpression<Long> id = construtor.parameter(Long.class);
 			criteria.select(raizResposta).where(construtor.equal(raizResposta.get("id"), id));
 
 			resposta = sessao.createQuery(criteria).getSingleResult();
