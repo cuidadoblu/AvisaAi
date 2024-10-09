@@ -21,7 +21,7 @@ public interface ComentarioDAO {
 
 	List<Comentario> consultarComentarioUsuario(Usuario usuario);
 
-	List<Resposta> consultarQuantidadeRespostasComentario(Comentario comentario);
+	List<Resposta> consultarRespostasComentario(Comentario comentario);
 
-	Comentario consultarComentarioId(Long id);
+	Comentario consultarComentarioId();
 }
