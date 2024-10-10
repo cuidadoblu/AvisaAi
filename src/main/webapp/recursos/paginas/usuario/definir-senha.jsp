@@ -1,3 +1,4 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -10,8 +11,7 @@
 	<!-- Logo no topo -->
 	<header>
 		<div class="logo-acesso">
-			<a href="landing-Page.jsp"><img src="img" alt="AvisaAí Logo"
-				class="logo-avisaai"></a>
+			<a href="landing-Page.jsp"><img src="img" alt="AvisaAí Logo" class="logo-avisaai"></a>
 		</div>
 	</header>
 	<main>
