@@ -1,3 +1,4 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -26,8 +27,7 @@
 					<h2>Alterar Senha</h2>
 					<form action="alterar-senha" method="post">
 						<div class="formulario-grupo">
-							<input type="tel" id="telefone" name="telefone"
-								placeholder="Telefone:" pattern="[0-9]{11}">
+							<input type="tel" id="telefone" name="telefone" placeholder="Telefone:" pattern="[0-9]{11}">
 						</div>
 
 						<h3>ou</h3>
@@ -38,9 +38,7 @@
 
 						<div class="formulario-botoes">
 							<button type="submit" class="botao-confirmar">Confirmar</button>
-							<button type="button"
-								onclick="window.location.href='cadastro.jsp'"
-								class="botao-cadastrar">Cadastrar-se</button>
+							<button type="button" onclick="window.location.href='cadastro.jsp'"class="botao-cadastrar">Cadastrar-se</button>
 							<div class="botao-login">
 								Já tem conta? <a href="login.jsp" class="link">Entrar</a>
 							</div>
@@ -51,5 +49,4 @@
 		</div>
 	</main>
 </body>
-
 </html>
