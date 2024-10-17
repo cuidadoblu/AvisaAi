@@ -3,23 +3,31 @@ package avisaai.modelo.entidade.usuario.contato;
 import java.io.Serializable;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import avisaai.modelo.entidade.usuario.Usuario;
 
 @Entity
 @Table(name = "contato")
 public class Contato implements Serializable {
 
 	private static final long serialVersionUID = -6243156960143903528L;
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_contato")
 	private Long id;
+	
+	@OneToOne(cascade = CascadeType.ALL, mappedBy = "contato", fetch = FetchType.LAZY)
+	private Usuario usuario;
 
 	@Column(name = "telefone_contato", length = 13, nullable = false)
 	private String telefone;
@@ -66,7 +74,7 @@ public class Contato implements Serializable {
 	}
 
 	public int hashCode() {
-		return Objects.hash(id);
+		return Objects.hash(usuario);
 	}
 
 	public boolean equals(Object obj) {
@@ -77,6 +85,6 @@ public class Contato implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Contato outro = (Contato) obj;
-		return id == outro.id;
+		return usuario == outro.usuario;
 	}
 }
