@@ -184,7 +184,7 @@ public class ComunidadeDAOImpl implements ComunidadeDAO {
 		return comunidade;
 	}
 
-	public Comunidade consultarComunidadeId() {
+	public Comunidade consultarComunidadeId(Long id) {
 		
 		Session sessao = null;
 		Comunidade comunidade = null;
@@ -198,8 +198,8 @@ public class ComunidadeDAOImpl implements ComunidadeDAO {
 			CriteriaQuery<Comunidade> criteria = construtor.createQuery(Comunidade.class);
 			Root<Comunidade> raizComunidade = criteria.from(Comunidade.class);
 
-			ParameterExpression<Long> id = construtor.parameter(Long.class);
-			criteria.select(raizComunidade).where(construtor.equal(raizComunidade.get("id"), id));
+			ParameterExpression<Long> idComunidade = construtor.parameter(Long.class);
+			criteria.select(raizComunidade).where(construtor.equal(raizComunidade.get("id"), idComunidade));
 
 			comunidade = sessao.createQuery(criteria).getSingleResult();
 			sessao.getTransaction().commit();
