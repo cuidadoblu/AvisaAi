@@ -30,5 +30,5 @@ public interface IncidenteDAO {
 
 	List<Incidente> consultarIncidentesSituacao(Incidente incidente);
 	
-	Incidente consultarIncidenteId();
+	Incidente consultarIncidenteId(Long id);
 }
