@@ -17,5 +17,5 @@ public interface ComunidadeDAO {
 
 	List<Comunidade> recuperarComunidades();
 	
-	Comunidade consultarComunidadeId();
+	Comunidade consultarComunidadeId(Long id);
 }
