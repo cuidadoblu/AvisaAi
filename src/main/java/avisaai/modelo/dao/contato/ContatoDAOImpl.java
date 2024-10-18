@@ -135,7 +135,7 @@ public class ContatoDAOImpl implements ContatoDAO {
 		return contato;
 	}
 	
-	public Contato consultarContatoId() {
+	public Contato consultarContatoId(Long id) {
 		
 		Session sessao = null;
 		Contato contato = null;
@@ -149,8 +149,8 @@ public class ContatoDAOImpl implements ContatoDAO {
 			CriteriaQuery<Contato> criteria = construtor.createQuery(Contato.class);
 			Root<Contato> raizContato = criteria.from(Contato.class);
 			
-			ParameterExpression<Long> id = construtor.parameter(Long.class);
-			criteria.select(raizContato).where(construtor.equal(raizContato.get("id"), id));
+			ParameterExpression<Long> idContato = construtor.parameter(Long.class);
+			criteria.select(raizContato).where(construtor.equal(raizContato.get("id"), idContato));
 			
 			contato = sessao.createQuery(criteria).getSingleResult();
 			sessao.getTransaction().commit();
