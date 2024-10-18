@@ -14,7 +14,7 @@ public interface UsuarioDAO {
 
 	List<Usuario> consultarUsuarioNome(Usuario usuario);
 
-	List<Usuario> recuperarUsuarios();
+	List<Usuario> recuperarUsuarios(Usuario usuario);
 
 	Usuario consultarUsuarioId(Long id);
 }
