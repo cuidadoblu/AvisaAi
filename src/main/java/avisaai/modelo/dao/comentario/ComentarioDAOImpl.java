@@ -11,7 +11,9 @@ import javax.persistence.criteria.Root;
 import org.hibernate.Session;
 
 import avisaai.modelo.entidade.comentario.Comentario;
+import avisaai.modelo.entidade.comentario.Comentario_;
 import avisaai.modelo.entidade.comentario.resposta.Resposta;
+import avisaai.modelo.entidade.comentario.resposta.Resposta_;
 import avisaai.modelo.entidade.incidente.Incidente;
 import avisaai.modelo.entidade.usuario.Usuario;
 import avisaai.modelo.factory.conexao.ConexaoFactory;
@@ -247,7 +249,7 @@ public class ComentarioDAOImpl implements ComentarioDAO {
 		return respostas;
 	}
 
-	public Comentario consultarComentarioId() {
+	public Comentario consultarComentarioId(Long id) {
 
 		Session sessao = null;
 		Comentario comentario = null;
@@ -262,8 +264,8 @@ public class ComentarioDAOImpl implements ComentarioDAO {
 			CriteriaQuery<Comentario> criteria = construtor.createQuery(Comentario.class);
 			Root<Comentario> raizComentario = criteria.from(Comentario.class);
 
-			ParameterExpression<Long> id = construtor.parameter(Long.class);
-			criteria.select(raizComentario).where(construtor.equal(raizComentario.get("id"), id));
+			ParameterExpression<Long> idComentario = construtor.parameter(Long.class);
+			criteria.select(raizComentario).where(construtor.equal(raizComentario.get("id"), idComentario));
 
 			comentario = sessao.createQuery(criteria).getSingleResult();
 
