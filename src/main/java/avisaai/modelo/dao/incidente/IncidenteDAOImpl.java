@@ -10,21 +10,20 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 
-import avisaai.modelo.entidade.comentario.Comentario_;
-import avisaai.modelo.entidade.comunidade.Comunidade_;
-import avisaai.modelo.entidade.incidente.Incidente_;
-import avisaai.modelo.entidade.localidade.Localidade_;
-import avisaai.modelo.entidade.usuario.Usuario_;
-import avisaai.modelo.factory.conexao.ConexaoFactory;
 import avisaai.modelo.entidade.comentario.Comentario;
+import avisaai.modelo.entidade.comentario.Comentario_;
 import avisaai.modelo.entidade.comunidade.Comunidade;
+import avisaai.modelo.entidade.comunidade.Comunidade_;
 import avisaai.modelo.entidade.incidente.Incidente;
+import avisaai.modelo.entidade.incidente.Incidente_;
 import avisaai.modelo.entidade.localidade.Localidade;
+import avisaai.modelo.entidade.localidade.Localidade_;
 import avisaai.modelo.entidade.usuario.Usuario;
+import avisaai.modelo.entidade.usuario.Usuario_;
 import avisaai.modelo.enumeracao.categoria.Categoria;
 import avisaai.modelo.enumeracao.situacao.Situacao;
+import avisaai.modelo.factory.conexao.ConexaoFactory;
 
 public class IncidenteDAOImpl implements IncidenteDAO {
 
@@ -180,7 +179,7 @@ public class IncidenteDAOImpl implements IncidenteDAO {
 			criteria.select(raizIncidente);
 
 			Join<Incidente, Comunidade> juncaoComunidade = raizIncidente.join(Incidente_.comunidade);
-//			
+
 			ParameterExpression<Long> idComunidade = construtor.parameter(Long.class);
 			criteria.where(construtor.equal(juncaoComunidade.get(Comunidade_.id), idComunidade));
 
@@ -370,8 +369,7 @@ public class IncidenteDAOImpl implements IncidenteDAO {
 
 			Join<Incidente, Situacao> juncaoSituacao = raizIncidente.join(Incidente_.situacao);
 
-			Predicate predicadoSituacaoIncidente = construtor.equal(juncaoSituacao.get(Incidente_.situacao.getName()),
-					incidente.getSituacao());
+			Predicate predicadoSituacaoIncidente = construtor.equal(juncaoSituacao.get(Incidente_.situacao.getName()), incidente.getSituacao());
 
 			criteria.where(predicadoSituacaoIncidente);
 
@@ -440,26 +438,26 @@ public class IncidenteDAOImpl implements IncidenteDAO {
 		return incidentes;
 	}
 
-	public Incidente consultarIncidenteId() {
-		
+	public Incidente consultarIncidenteId(Long id) {
+
 		Session sessao = null;
 		Incidente incidente = null;
-		
+
 		try {
-			
+
 			sessao = fabrica.getConexao().openSession();
 			sessao.beginTransaction();
-			
+
 			CriteriaBuilder construtor = sessao.getCriteriaBuilder();
 			CriteriaQuery<Incidente> criteria = construtor.createQuery(Incidente.class);
 			Root<Incidente> raizIncidente = criteria.from(Incidente.class);
-			
-			ParameterExpression<Long> id = construtor.parameter(Long.class);
-			criteria.select(raizIncidente).where(construtor.equal(raizIncidente.get("id"), id));
-			
+
+			ParameterExpression<Long> idIncidente = construtor.parameter(Long.class);
+			criteria.select(raizIncidente).where(construtor.equal(raizIncidente.get("id"), idIncidente));
+
 			incidente = sessao.createQuery(criteria).getSingleResult();
 			sessao.getTransaction().commit();
-		
+
 		} catch (Exception exception) {
 			if (sessao.getTransaction() != null) {
 				sessao.getTransaction().rollback();
@@ -470,7 +468,7 @@ public class IncidenteDAOImpl implements IncidenteDAO {
 				sessao.close();
 			}
 		}
-		
+
 		return incidente;
 	}
 }
