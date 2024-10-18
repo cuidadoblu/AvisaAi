@@ -56,7 +56,7 @@
 		</dependency>
 	</dependencies>
 	<build>
-		<finalName>Exemplo19</finalName>
+		<finalName>AvisaAi</finalName>
 		<pluginManagement>
 			<plugins>
 				<plugin>
