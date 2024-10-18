@@ -76,7 +76,7 @@ public class LocalidadeDAOImpl {
 
 	}
 
-	public Localidade consultarLocalidadeId() {
+	public Localidade consultarLocalidadeId(Long id) {
 
 		Session sessao = null;
 		Localidade localidade = null;
@@ -89,8 +89,8 @@ public class LocalidadeDAOImpl {
 			CriteriaQuery<Localidade> criteria = construtor.createQuery(Localidade.class);
 			Root<Localidade> raizLocalidade = criteria.from(Localidade.class);
 
-			ParameterExpression<Long> id = construtor.parameter(Long.class);
-			criteria.select(raizLocalidade).where(construtor.equal(raizLocalidade.get("id"), id));
+			ParameterExpression<Long> idLocalidade = construtor.parameter(Long.class);
+			criteria.select(raizLocalidade).where(construtor.equal(raizLocalidade.get("id"), idLocalidade));
 
 			localidade = sessao.createQuery(criteria).getSingleResult();
 
