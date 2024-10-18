@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -11,7 +12,8 @@
 	<!-- Logo no topo -->
 	<header>
 		<div class="logo-acesso">
-			<a href="landing-Page.jsp"><img src="img" alt="AvisaAí Logo" class="logo-avisaai"></a>
+			<a href="landing-Page.jsp"><img src="img" alt="AvisaAí Logo"
+				class="logo-avisaai"></a>
 		</div>
 	</header>
 	<main>
@@ -26,15 +28,19 @@
 					<h2>Definir Senha</h2>
 					<form action="definir-senha" method="post">
 						<div class="formulario-grupo">
-							<input type="password" name="senha" id="senha" placeholder="Senha:" required>
+							<input type="password" name="senha" id="senha"
+								placeholder="Senha:" required>
 						</div>
 
 						<div class="formulario-grupo">
-							<input type="password" name="confirmarsenha" id="confirmarsenha" placeholder="Confirmar Senha:" required>
+							<input type="password" name="confirmarsenha" id="confirmarsenha"
+								placeholder="Confirmar Senha:" required>
 						</div>
 
 						<div class="formulario-botoes">
-							<button type="button" onclick="window.location.href='cadastro.jsp'"class="botao-cadastrar">Cadastrar-se</button>
+							<button type="button"
+								onclick="window.location.href='cadastro.jsp'"
+								class="botao-cadastrar">Cadastrar-se</button>
 							<button type="submit" class="botao-confirmar">Confirmar</button>
 							<div class="botao-login">
 								Já tem conta? <a href="login.jsp" class="link">Entrar</a>
