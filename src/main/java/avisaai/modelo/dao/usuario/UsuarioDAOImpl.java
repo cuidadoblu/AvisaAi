@@ -10,9 +10,10 @@ import javax.persistence.criteria.Root;
 import org.hibernate.Session;
 
 import avisaai.modelo.entidade.usuario.Usuario;
+import avisaai.modelo.entidade.usuario.Usuario_;
 import avisaai.modelo.factory.conexao.ConexaoFactory;
 
-public class UsuarioDAOImpl {
+public class UsuarioDAOImpl implements UsuarioDAO {
 
 	private final ConexaoFactory fabrica = new ConexaoFactory();
 
@@ -140,7 +141,7 @@ public class UsuarioDAOImpl {
 		return usuarios;
 	}
 
-	public List<Usuario> recuperarUsuarios() {
+	public List<Usuario> recuperarUsuarios(Usuario usuario) {
 		Session sessao = null;
 		List<Usuario> usuarios = null;
 
@@ -178,7 +179,7 @@ public class UsuarioDAOImpl {
 		return usuarios;
 	}
 
-	public Usuario consultarUsuarioId() {
+	public Usuario consultarUsuarioId(Long id) {
 
 		Session sessao = null;
 		Usuario usuario = null;
@@ -193,8 +194,8 @@ public class UsuarioDAOImpl {
 			CriteriaQuery<Usuario> criteria = construtor.createQuery(Usuario.class);
 			Root<Usuario> raizUsuario = criteria.from(Usuario.class);
 
-			ParameterExpression<Long> id = construtor.parameter(Long.class);
-			criteria.select(raizUsuario).where(construtor.equal(raizUsuario.get("id"), id));
+			ParameterExpression<Long> idUsuario = construtor.parameter(Long.class);
+			criteria.select(raizUsuario).where(construtor.equal(raizUsuario.get("id"), idUsuario));
 
 			usuario = sessao.createQuery(criteria).getSingleResult();
 
