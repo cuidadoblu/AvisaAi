@@ -20,7 +20,7 @@ import avisaai.modelo.entidade.incidente.Incidente;
 
 @Entity
 @Table(name = "localidade", uniqueConstraints = {
-		@UniqueConstraint(columnNames = { "tipo_localidade", "logradouro localidade", "numero_localidade",
+		@UniqueConstraint(columnNames = { "tipo_localidade", "logradouro_localidade", "numero_localidade",
 				"bairro_localidade", "cidade_localidade", "estado_localidade", "complemento_localidade" }) })
 public class Localidade implements Serializable {
 
