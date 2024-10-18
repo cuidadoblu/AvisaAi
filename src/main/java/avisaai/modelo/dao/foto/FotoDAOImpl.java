@@ -136,7 +136,7 @@ public class FotoDAOImpl implements FotoDAO {
 		return fotos;
 	}
 
-	public Foto consultarFotoId() {
+	public Foto consultarFotoId(Long id) {
 
 		Session sessao = null;
 		Foto foto = null;
@@ -150,8 +150,8 @@ public class FotoDAOImpl implements FotoDAO {
 			CriteriaQuery<Foto> criteria = construtor.createQuery(Foto.class);
 			Root<Foto> raizFoto = criteria.from(Foto.class);
 
-			ParameterExpression<Long> id = construtor.parameter(Long.class);
-			criteria.select(raizFoto).where(construtor.equal(raizFoto.get("id"), id));
+			ParameterExpression<Long> idFoto = construtor.parameter(Long.class);
+			criteria.select(raizFoto).where(construtor.equal(raizFoto.get("id"), idFoto));
 
 			foto = sessao.createQuery(criteria).getSingleResult();
 			sessao.getTransaction().commit();
