@@ -202,7 +202,7 @@ public class RespostaDAOImpl implements RespostaDAO {
 		return respostas;
 	}
 
-	public Resposta consultarRespostaId() {
+	public Resposta consultarRespostaId(Long id) {
 
 		Session sessao = null;
 		Resposta resposta = null;
@@ -216,8 +216,8 @@ public class RespostaDAOImpl implements RespostaDAO {
 			CriteriaQuery<Resposta> criteria = construtor.createQuery(Resposta.class);
 			Root<Resposta> raizResposta = criteria.from(Resposta.class);
 
-			ParameterExpression<Long> id = construtor.parameter(Long.class);
-			criteria.select(raizResposta).where(construtor.equal(raizResposta.get("id"), id));
+			ParameterExpression<Long> idResposta = construtor.parameter(Long.class);
+			criteria.select(raizResposta).where(construtor.equal(raizResposta.get("id"), idResposta));
 
 			resposta = sessao.createQuery(criteria).getSingleResult();
 
