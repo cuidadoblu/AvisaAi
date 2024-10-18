@@ -10,7 +10,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebServlet(urlPatterns = {"/login", "/cadastro", "/alterar-senha", "/definir-senha", "/inserir-usuario", "/atualizar-usuario", "/excluir-usuario", "/exibir-perfil"})
+import avisaai.modelo.dao.contato.ContatoDAO;
+import avisaai.modelo.dao.contato.ContatoDAOImpl;
+import avisaai.modelo.dao.usuario.UsuarioDAO;
+import avisaai.modelo.dao.usuario.UsuarioDAOImpl;
+import avisaai.modelo.entidade.usuario.Usuario;
+import avisaai.modelo.entidade.usuario.contato.Contato;
+
+@WebServlet(urlPatterns = {"/login", "/cadastro-usuario", "/alterar-senha", "/definir-senha", "/inserir-usuario", "/atualizar-usuario", "/excluir-usuario", "/exibir-perfil"})
 public class UsuarioServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1959126762240015341L;
@@ -40,7 +47,7 @@ public class UsuarioServlet extends HttpServlet {
 					mostrarTelaLogin(requisicao, resposta);
 					break;
 					
-				case "/cadastro":
+				case "/cadastro-usuario":
 					mostrarTelaCadastro(requisicao, resposta);
 					break;
 					
@@ -50,6 +57,10 @@ public class UsuarioServlet extends HttpServlet {
 					
 				case "/definir-senha":
 					mostrarTelaDefinirSenha(requisicao, resposta);
+					break;
+					
+				case "/perfil-usuario":
+					mostrarTelaPerfilUsuario(requisicao, resposta);
 					break;
 					
 				case "/inserir-usuario":
@@ -81,28 +92,32 @@ public class UsuarioServlet extends HttpServlet {
 	private void mostrarTelaLogin(HttpServletRequest requisicao, HttpServletResponse resposta)
 					throws ServletException, IOException {
 			
-			HttpSession sessao = requisicao.getSession();
-			requisicao.getRequestDispatcher("login-usuario.jsp").forward(requisicao, resposta); 
+			requisicao.getRequestDispatcher("/recursos/paginas/usuario/login.jsp").forward(requisicao, resposta); 
 	}
 
 	private void mostrarTelaCadastro(HttpServletRequest requisicao, HttpServletResponse resposta)
 					throws ServletException, IOException {
 		
-			HttpSession sessao = requisicao.getSession();
-			requisicao.getRequestDispatcher("cadastro-usuario.jsp").forward(requisicao, resposta);
+			requisicao.getRequestDispatcher("/recursos/paginas/usuario/cadastro-usuario.jsp").forward(requisicao, resposta);
 	}
 	private void mostrarTelaAlterarSenha(HttpServletRequest requisicao, HttpServletResponse resposta)
 				throws ServletException, IOException {
 		
-			HttpSession sessao = requisicao.getSession();
-			requisicao.getRequestDispatcher("alterar-senha.jsp").forward(requisicao, resposta);
+			requisicao.getRequestDispatcher("/recursos/paginas/usuario/alterar-senha.jsp").forward(requisicao, resposta);
 	}
 
 	private void mostrarTelaDefinirSenha(HttpServletRequest requisicao, HttpServletResponse resposta)
 				throws ServletException, IOException {
 		
 			HttpSession sessao = requisicao.getSession();
-			requisicao.getRequestDispatcher("definir-senha.jsp").forward(requisicao, resposta);
+			requisicao.getRequestDispatcher("/recursos/paginas/usuario/redefinir-senha.jsp").forward(requisicao, resposta);
+	}
+	
+	private void mostrarTelaPerfilUsuario(HttpServletRequest requisicao, HttpServletResponse resposta)
+			throws ServletException, IOException {
+		
+			HttpSession sessao = requisicao.getSession();
+			requisicao.getRequestDispatcher("/recursos/paginas/usuario/perfil-usuario.jsp").forward(requisicao, resposta);
 	}
 	
 	private void inserirUsuario(HttpServletRequest requisicao, HttpServletResponse resposta)
@@ -114,12 +129,13 @@ public class UsuarioServlet extends HttpServlet {
 			
 			String telefone = requisicao.getParameter("telefone");
 			String email = requisicao.getParameter("email");
+			
 			Contato contato = new Contato(telefone, email);
-			contatoDAO.inserirContato(new Contato(contato));
+			contatoDAO.inserirContato(contato);
 			
-			usuarioDAO.inserirUsuario(new Usuario(nome, sobrenome, senha, contato));
+			usuarioDAO.inserirUsuario(new Usuario(nome, sobrenome, senha, contato, null, null));
 			
-			resposta.sendRedirect("feed-principal.jsp");
+			requisicao.getRequestDispatcher("login").forward(requisicao, resposta);
 	}
 	
 	private void atualizarUsuario(HttpServletRequest requisicao, HttpServletResponse resposta)
@@ -130,41 +146,42 @@ public class UsuarioServlet extends HttpServlet {
 			String sobrenome = requisicao.getParameter("sobrenome");
 			String senha = requisicao.getParameter("senha");
 			
-			Long id_contato = Long.parseLong(requisicao.getParameter("id"));
 			String telefone = requisicao.getParameter("telefone");
 			String email = requisicao.getParameter("email");
 			Contato contato = new Contato(telefone, email);
-			contatoDAO.atualizarContato(new Contato(id_contato, telefone, email));
 			
-			usuarioDAO.atualizarUsuario(new Usuario(id, nome, sobrenome, senha, contato));
+			contatoDAO.atualizarContato(new Contato(telefone, email));
 			
-			resposta.sendRedirect("perfil-usuario.jsp");
+			//Adicionar papel aqui e trocar o null no construtor
+			
+			usuarioDAO.atualizarUsuario(new Usuario(id, nome, sobrenome, senha, contato, null, null));
+			
+			requisicao.getRequestDispatcher("/recursos/paginas/usuario/perfil-usuario").forward(requisicao, resposta);
 	}
 	
 	private void excluirUsuario(HttpServletRequest requisicao, HttpServletResponse resposta)
 			throws SQLException, ServletException, IOException {
 		
 		Long id = Long.parseLong(requisicao.getParameter("id_usuario"));
-		Usuario usuario = usuarioDAO.recuperarUsuario(new Usuario(id));
-		usuarioDAO.excluirUsuario(usuario);
+		Usuario usuario = usuarioDAO.consultarUsuarioId(id);
+		usuarioDAO.deletarUsuario(usuario);
 		
-		Long id_contato = Long.parseLong(requisicao.getParameter("id_contato"));
-		Contato contato = contatoDAO.recuperarContato(new Contato(id_contato));
-		contatoDAO.excluirContato(contato);
+		Long idContato = Long.parseLong(requisicao.getParameter("id_contato"));
+		Contato contato = contatoDAO.consultarContatoId(idContato);
+		contatoDAO.deletarContato(contato);
 		
-		resposta.sendRedirect("login-usuario.jsp");
+		requisicao.getRequestDispatcher("login").forward(requisicao, resposta);
 	}
 	private void exibirPerfil(HttpServletRequest requisicao, HttpServletResponse resposta)
 			throws ServletException, IOException {
 	
 		HttpSession sessao = requisicao.getSession();
-		requisicao.getRequestDispatcher("perfil-pessoal.jsp").forward(requisicao, resposta);
+		requisicao.getRequestDispatcher("/recursos/paginas/usuario/perfil-pessoal.jsp").forward(requisicao, resposta);
 	}
 	
 	private void erro(HttpServletRequest requisicao, HttpServletResponse resposta)
 			throws ServletException, IOException {
 		
-		HttpSession sessao = requisicao.getSession();
-		requisicao.getRequestDispatcher("erro-404.jsp").forward(requisicao, resposta);
+		requisicao.getRequestDispatcher("/recursos/paginas/erro/erro-404.jsp").forward(requisicao, resposta);
 	}
 }
