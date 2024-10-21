@@ -76,7 +76,7 @@ public class LocalidadeServlet extends HttpServlet {
 	private void mostrarTelaCadastroLocalidade(HttpServletRequest requisicao, HttpServletResponse resposta)
 			throws ServletException, IOException {
 
-		requisicao.getRequestDispatcher("cadastro-localidade.jsp").forward(requisicao, resposta);
+		requisicao.getRequestDispatcher("/recursos/paginas/localidade/cadastro-localidade.jsp").forward(requisicao, resposta);
 	}
 
 	private void inserirLocalidade(HttpServletRequest requisicao, HttpServletResponse resposta)
@@ -148,13 +148,13 @@ public class LocalidadeServlet extends HttpServlet {
 	private void mostrarTelaAtualizaLocalidade(HttpServletRequest requisicao, HttpServletResponse resposta)
 			throws ServletException, IOException {
 
-		requisicao.getRequestDispatcher("cadastro-localidade.jsp").forward(requisicao, resposta);
+		requisicao.getRequestDispatcher("/recursos/paginas/localidade/cadastro-localidade.jsp").forward(requisicao, resposta);
 	}
 
 	private void mostrarTelaConsultaLocalidade(HttpServletRequest requisicao, HttpServletResponse resposta)
 			throws ServletException, IOException {
 
-		requisicao.getRequestDispatcher("consulta-localidade.jsp").forward(requisicao, resposta);
+		requisicao.getRequestDispatcher("/recursos/paginas/localidade/consulta-localidade.jsp").forward(requisicao, resposta);
 	}
 
 	private void erro(HttpServletRequest requisicao, HttpServletResponse resposta)
