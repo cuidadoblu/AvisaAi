@@ -17,7 +17,7 @@ import avisaai.modelo.dao.usuario.UsuarioDAOImpl;
 import avisaai.modelo.entidade.usuario.Usuario;
 import avisaai.modelo.entidade.usuario.contato.Contato;
 
-@WebServlet(urlPatterns = {"/login", "/cadastro-usuario", "/alterar-senha", "/definir-senha", "/inserir-usuario", "/atualizar-usuario", "/excluir-usuario", "/exibir-perfil"})
+@WebServlet(urlPatterns = {"/login", "/cadastro-usuario", "/alterar-senha", "/definir-senha", "/inserir-usuario", "/atualizar-usuario", "/excluir-usuario", "/exibir-perfil", "/erro"})
 public class UsuarioServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1959126762240015341L;
@@ -79,7 +79,7 @@ public class UsuarioServlet extends HttpServlet {
 					exibirPerfil(requisicao, resposta);
 					break;
 					
-				default:
+				case "/erro":
 					erro(requisicao, resposta);
 					break;
 				}
