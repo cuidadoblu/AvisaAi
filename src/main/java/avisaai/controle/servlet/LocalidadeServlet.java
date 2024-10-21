@@ -14,7 +14,7 @@ import avisaai.modelo.dao.localidade.LocalidadeDAOImpl;
 import avisaai.modelo.entidade.localidade.Localidade;
 
 @WebServlet(urlPatterns = { "/localidades", "/cadastro-localidade", "/editar-localidade", "/inserir-localidade",
-		"/consultar-localidade", "/atualizar-localidade", "/excluir-localidade" })
+		"/consultar-localidade", "/atualizar-localidade", "/excluir-localidade", "/erro"})
 
 public class LocalidadeServlet extends HttpServlet {
 
@@ -63,7 +63,7 @@ public class LocalidadeServlet extends HttpServlet {
 				excluirLocalidade(requisicao, resposta);
 				break;
 
-			default:
+			case "/erro":
 				erro(requisicao, resposta);
 				break;
 			}
@@ -93,7 +93,7 @@ public class LocalidadeServlet extends HttpServlet {
 				complemento);
 		localidadeDAO.inserirLocalidade(localidade);
 
-		resposta.sendRedirect("consulta-localidade.jsp");
+		resposta.sendRedirect("localidades");
 	}
 
 	private void excluirLocalidade(HttpServletRequest requisicao, HttpServletResponse resposta)
@@ -109,7 +109,7 @@ public class LocalidadeServlet extends HttpServlet {
 
 		localidadeDAO.deletarLocalidade(localidade);
 
-		resposta.sendRedirect("consulta-localidade.jsp");
+		resposta.sendRedirect("localidades");
 	}
 
 	private void atualizarLocalidade(HttpServletRequest requisicao, HttpServletResponse resposta)
@@ -127,7 +127,7 @@ public class LocalidadeServlet extends HttpServlet {
 		Localidade localidade = localidadeDAO.consultarLocalidadePorId(id);
 
 		if (localidade == null) {
-			requisicao.getRequestDispatcher("erro-404.jsp").forward(requisicao, resposta);
+			requisicao.getRequestDispatcher("/recursos/paginas/erro/erro-404.jsp").forward(requisicao, resposta);
 			return;
 		}
 
@@ -141,7 +141,7 @@ public class LocalidadeServlet extends HttpServlet {
 
 		localidadeDAO.atualizarLocalidade(localidade);
 
-		resposta.sendRedirect("consulta-localidade.jsp");
+		resposta.sendRedirect("localidades");
 
 	}
 
@@ -160,6 +160,6 @@ public class LocalidadeServlet extends HttpServlet {
 	private void erro(HttpServletRequest requisicao, HttpServletResponse resposta)
 			throws ServletException, IOException {
 
-		requisicao.getRequestDispatcher("erro-404.jsp").forward(requisicao, resposta);
+		requisicao.getRequestDispatcher("/recursos/paginas/erro/erro-404.jsp").forward(requisicao, resposta);
 	}
 }
