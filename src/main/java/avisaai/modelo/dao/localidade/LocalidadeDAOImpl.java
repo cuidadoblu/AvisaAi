@@ -12,7 +12,7 @@ import org.hibernate.Session;
 import avisaai.modelo.entidade.localidade.Localidade;
 import avisaai.modelo.factory.conexao.ConexaoFactory;
 
-public class LocalidadeDAOImpl {
+public class LocalidadeDAOImpl implements LocalidadeDAO {
 
 	private final ConexaoFactory fabrica = new ConexaoFactory();
 
