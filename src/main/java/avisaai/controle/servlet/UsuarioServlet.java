@@ -156,7 +156,7 @@ public class UsuarioServlet extends HttpServlet {
 			
 			usuarioDAO.atualizarUsuario(new Usuario(id, nome, sobrenome, senha, contato, null, null));
 			
-			requisicao.getRequestDispatcher("/recursos/paginas/usuario/perfil-usuario").forward(requisicao, resposta);
+			requisicao.getRequestDispatcher("exibir-perfil").forward(requisicao, resposta);
 	}
 	
 	private void excluirUsuario(HttpServletRequest requisicao, HttpServletResponse resposta)
@@ -176,7 +176,7 @@ public class UsuarioServlet extends HttpServlet {
 			throws ServletException, IOException {
 	
 		HttpSession sessao = requisicao.getSession();
-		requisicao.getRequestDispatcher("/recursos/paginas/usuario/perfil-pessoal.jsp").forward(requisicao, resposta);
+		requisicao.getRequestDispatcher("/recursos/paginas/usuario/perfil-usuario.jsp").forward(requisicao, resposta);
 	}
 	
 	private void erro(HttpServletRequest requisicao, HttpServletResponse resposta)
