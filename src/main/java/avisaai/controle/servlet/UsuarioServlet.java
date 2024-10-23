@@ -17,7 +17,7 @@ import avisaai.modelo.dao.usuario.UsuarioDAOImpl;
 import avisaai.modelo.entidade.usuario.Usuario;
 import avisaai.modelo.entidade.usuario.contato.Contato;
 
-@WebServlet(urlPatterns = {"/login", "/cadastro-usuario", "/alterar-senha", "/definir-senha", "/inserir-usuario", "/atualizar-usuario", "/excluir-usuario", "/perfil-usuario"})
+@WebServlet(urlPatterns = {"/login", "/cadastro-usuario", "/alterar-senha", "/definir-senha", "/inserir-usuario", "/atualizar-usuario", "/excluir-usuario", "/perfil-usuario", "/erro"})
 public class UsuarioServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1959126762240015341L;
@@ -75,7 +75,7 @@ public class UsuarioServlet extends HttpServlet {
 					excluirUsuario(requisicao, resposta);
 					break;
 					
-				default:
+				case "/erro":
 					erro(requisicao, resposta);
 					break;
 				}
@@ -152,26 +152,26 @@ public class UsuarioServlet extends HttpServlet {
 			
 			usuarioDAO.atualizarUsuario(new Usuario(id, nome, sobrenome, senha, contato, null, null));
 			
-			requisicao.getRequestDispatcher("/recursos/paginas/usuario/perfil-usuario").forward(requisicao, resposta);
+			requisicao.getRequestDispatcher("exibir-perfil").forward(requisicao, resposta);
 	}
 	
 	private void excluirUsuario(HttpServletRequest requisicao, HttpServletResponse resposta)
-			throws SQLException, ServletException, IOException {
+			  throws SQLException, ServletException, IOException {
 		
-		Long idUsuario = Long.parseLong(requisicao.getParameter("id-usuario"));
-		Usuario usuario = usuarioDAO.consultarUsuarioId(idUsuario);
-		usuarioDAO.deletarUsuario(usuario);
+		  Long idUsuario = Long.parseLong(requisicao.getParameter("id-usuario"));
+		  Usuario usuario = usuarioDAO.consultarUsuarioId(idUsuario);
+		  usuarioDAO.deletarUsuario(usuario);
+		  
+		  Long idContato = Long.parseLong(requisicao.getParameter("id-contato"));
+		  Contato contato = contatoDAO.consultarContatoId(idContato);
+		  contatoDAO.deletarContato(contato);
 		
-		Long idContato = Long.parseLong(requisicao.getParameter("id-contato"));
-		Contato contato = contatoDAO.consultarContatoId(idContato);
-		contatoDAO.deletarContato(contato);
-		
-		requisicao.getRequestDispatcher("login").forward(requisicao, resposta);
+		  requisicao.getRequestDispatcher("login").forward(requisicao, resposta);
 	}
 	
 	private void erro(HttpServletRequest requisicao, HttpServletResponse resposta)
-			throws ServletException, IOException {
+			  throws ServletException, IOException {
 		
-		requisicao.getRequestDispatcher("/recursos/paginas/erro/erro-404.jsp").forward(requisicao, resposta);
+		  requisicao.getRequestDispatcher("/recursos/paginas/erro/erro-404.jsp").forward(requisicao, resposta);
 	}
 }
