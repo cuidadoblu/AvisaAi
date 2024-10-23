@@ -17,7 +17,7 @@ import avisaai.modelo.dao.usuario.UsuarioDAOImpl;
 import avisaai.modelo.entidade.usuario.Usuario;
 import avisaai.modelo.entidade.usuario.contato.Contato;
 
-@WebServlet(urlPatterns = {"/login", "/cadastro-usuario", "/alterar-senha", "/definir-senha", "/inserir-usuario", "/atualizar-usuario", "/excluir-usuario", "/exibir-perfil"})
+@WebServlet(urlPatterns = {"/login", "/cadastro-usuario", "/alterar-senha", "/definir-senha", "/inserir-usuario", "/atualizar-usuario", "/excluir-usuario", "/perfil-usuario"})
 public class UsuarioServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1959126762240015341L;
@@ -73,10 +73,6 @@ public class UsuarioServlet extends HttpServlet {
 					
 				case "/excluir-usuario":
 					excluirUsuario(requisicao, resposta);
-					break;
-					
-				case "/exibir-perfil":
-					exibirPerfil(requisicao, resposta);
 					break;
 					
 				default:
@@ -162,21 +158,15 @@ public class UsuarioServlet extends HttpServlet {
 	private void excluirUsuario(HttpServletRequest requisicao, HttpServletResponse resposta)
 			throws SQLException, ServletException, IOException {
 		
-		Long id = Long.parseLong(requisicao.getParameter("id_usuario"));
-		Usuario usuario = usuarioDAO.consultarUsuarioId(id);
+		Long idUsuario = Long.parseLong(requisicao.getParameter("id-usuario"));
+		Usuario usuario = usuarioDAO.consultarUsuarioId(idUsuario);
 		usuarioDAO.deletarUsuario(usuario);
 		
-		Long idContato = Long.parseLong(requisicao.getParameter("id_contato"));
+		Long idContato = Long.parseLong(requisicao.getParameter("id-contato"));
 		Contato contato = contatoDAO.consultarContatoId(idContato);
 		contatoDAO.deletarContato(contato);
 		
 		requisicao.getRequestDispatcher("login").forward(requisicao, resposta);
-	}
-	private void exibirPerfil(HttpServletRequest requisicao, HttpServletResponse resposta)
-			throws ServletException, IOException {
-	
-		HttpSession sessao = requisicao.getSession();
-		requisicao.getRequestDispatcher("/recursos/paginas/usuario/perfil-pessoal.jsp").forward(requisicao, resposta);
 	}
 	
 	private void erro(HttpServletRequest requisicao, HttpServletResponse resposta)
