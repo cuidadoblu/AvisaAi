@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AvisaAí - Cadastro Incidente</title>
+<link rel="shortcut icon" href="img" type="image/x-icon">
+</head>
+<body>
+	<main>
+		<div class="container-cadastro">
+			<div class="cabecalho-cadastro">
+				<a href="" class="botao-retornar">←</a>
+				<h2>Cadastrar Incidente</h2>
+			</div>
+			<form action="cadastro-incidente" method="post">
+				<div class="formulario-entradas">
+					<div class="formulario-grupo">
+						<label for="titulo">Título</label> <input type="text" id="titulo"name="titulo" placeholder="Escreva o título do incidente..." maxlength="50" required> 
+						<span class="contador-caracteres">0/50</span>
+					</div>
+
+					<div class="formulario-grupo">
+						<label for="descricao">Descrição</label>
+						<textarea id="descricao" name="descricao" placeholder="Escreva uma descrição para o seu incidente..." required></textarea>
+					</div>
+
+					<div class="formulario-grupo">
+						<label for="enviar-foto" class="arquivo-foto">Escolha uma foto</label> 
+						<input type="file" id="enviar-foto" class="arquivo-foto" accept="image/*">
+					</div>
+
+					<div class="formulario-grupo">
+						<label for="bairro">Bairro</label> 
+						<select id="bairro" name="bairro" required>
+							<option value="">Não selecionado</option>
+						</select>
+					</div>
+
+					<div class="formulario-grupo">
+						<label for="logradouro">Logradouro</label> 
+						<input type="text" id="logradouro" name="logradouro" placeholder="Escreva o seu logradouro..." maxlength="30" required>
+						<span class="contador-caracteres">0/30</span>
+					</div>
+
+					<div class="formulario-grupo">
+						<label for="categoria">Categoria</label> 
+						<select id="categoria" name="categoria" required>
+							<option value="Enxurrada">Enxurrada</option>
+							<option value="Alagamento">Alagamento</option>
+							<option value="Inundacao">Inundação</option>
+							<option value="Outros">Outros</option>
+						</select>
+					</div>
+
+					<div class="formulario-botoes">
+						<button type="button" class="botao-cancelar">Cancelar</button>
+						<button type="submit" class="botao-confirmar">Confirmar</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</main>
+</body>
+</html>
