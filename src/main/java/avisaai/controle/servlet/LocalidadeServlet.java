@@ -103,7 +103,7 @@ public class LocalidadeServlet extends HttpServlet {
 		Localidade localidade = localidadeDAO.consultarLocalidadePorId(id);
 
 		if (localidade == null) {
-			requisicao.getRequestDispatcher("erro-404.jsp").forward(requisicao, resposta);
+			requisicao.getRequestDispatcher("erro").forward(requisicao, resposta);
 			return;
 		}
 
@@ -127,7 +127,7 @@ public class LocalidadeServlet extends HttpServlet {
 		Localidade localidade = localidadeDAO.consultarLocalidadePorId(id);
 
 		if (localidade == null) {
-			requisicao.getRequestDispatcher("/recursos/paginas/erro/erro-404.jsp").forward(requisicao, resposta);
+			requisicao.getRequestDispatcher("erro").forward(requisicao, resposta);
 			return;
 		}
 
